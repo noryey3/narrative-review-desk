@@ -370,7 +370,10 @@ $('delpreset').onclick = async () => {
 
 /* ---------- source file uploads ---------- */
 const IMG = ['image/png','image/jpeg','image/gif','image/webp'];
-const MAX_BYTES = 25 * 1024 * 1024;
+// Vercel Functions cap request bodies at roughly 4.5 MB. Binary files are
+// base64-encoded in JSON, which adds about 33%, so keep the original files
+// comfortably below that limit.
+const MAX_BYTES = 3 * 1024 * 1024;
 let files = [];
 let last = null;
 
@@ -410,7 +413,7 @@ async function addFiles(list) {
       continue;
     }
     if (files.reduce((a, x) => a + x.size, 0) + f.size > MAX_BYTES) {
-      $('status').textContent = 'That is more than the review can hold at once. Remove a file or split the pack.';
+      $('status').textContent = 'That source pack is over 3 MB. Compress the PDF, split it into smaller sections, or paste the key figures instead.';
       continue;
     }
     try {
