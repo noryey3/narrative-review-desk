@@ -1,0 +1,9 @@
+# never commit keys
+.env
+.env.*
+!.env.example
+
+# local noise
+.vercel
+node_modules
+.DS_Store
